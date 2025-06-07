@@ -31,7 +31,7 @@ public class GunController : MonoBehaviour
                 angle = angle + 180f; // Инвертируем угол, если персонаж зеркалирован
             }
 
-            transform.localRotation = Quaternion.Euler(0, 0, angle); // Используем localRotation
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * 5f);
         }
     }
 

@@ -6,11 +6,13 @@ public class PlayerMovement : MonoBehaviour
     public Joystick joystick; // Ссылка на джойстик
     private Rigidbody2D rb;
     private PlayerShooting shooting; // Ссылка на скрипт стрельбы
+    private PlayerHealth health; // Ссылка на здоровье
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         shooting = GetComponent<PlayerShooting>(); // Находим скрипт стрельбы
+        health = GetComponent<PlayerHealth>(); // Находим скрипт здоровья
         if (joystick == null)
         {
             Debug.LogError("PlayerMovement: Joystick not assigned in Inspector!");
@@ -18,6 +20,10 @@ public class PlayerMovement : MonoBehaviour
         if (shooting == null)
         {
             Debug.LogError("PlayerMovement: PlayerShooting not found!");
+        }
+        if (health == null)
+        {
+            Debug.LogError("PlayerMovement: PlayerHealth not found!");
         }
     }
 
