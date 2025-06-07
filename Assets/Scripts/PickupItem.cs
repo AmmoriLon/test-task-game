@@ -1,18 +1,19 @@
+using UnityEngine.UI; // Добавлено для Sprite
 using UnityEngine;
 
 public class PickupItem : MonoBehaviour
 {
-    public string itemName = "Ammo"; // Имя предмета
-    public Sprite itemIcon;          // Иконка предмета
-    public int count = 1;            // Количество
+    public string itemName;
+    public Sprite itemIcon;
+    public int count = 1;
+    public Item.ItemType itemType; // Новый параметр типа
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            Item item = new Item(itemName, itemIcon, count);
-            InventoryManager.Instance.AddItem(item);
-            Destroy(gameObject); // Удаляем предмет с карты
+            InventoryManager.Instance.AddItem(new Item(itemName, itemIcon, count, itemType));
+            Destroy(gameObject);
         }
     }
 }

@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     public float attackDamage = 5f; // Урон от атаки
     private float attackCooldown = 1f; // Перезарядка атаки (в секундах)
     private float lastAttackTime = 0f; // Время последней атаки
+    public Sprite ammoSprite; // Ссылка на спрайт патронов (будут выпадать при убийстве)
+    public GameObject ammoPickupPrefab; // Префаб патронов для дропа
 
     void Start()
     {
@@ -83,7 +85,14 @@ public class Enemy : MonoBehaviour
                     }
                 }
 
-                transform.position = Vector2.MoveTowards(transform.position, transform.position + (Vector3)moveDirection, 2f * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, transform.position + (Vector3)moveDirection, 1f * Time.deltaTime);
+
+                // Поворот врага в зависимости от направления к игроку
+                if (direction.x != 0)
+                {
+                    float scaleX = Mathf.Sign(direction.x); // 1 для движения вправо, -1 для влево
+                    transform.localScale = new Vector3(scaleX, 1, 1); // Поворот лицом к игроку, без инверсии
+                }
 
                 // Атака игрока
                 if (distance <= attackRange && Time.time - lastAttackTime >= attackCooldown)
@@ -133,9 +142,15 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        // Дроп предмета (например, патроны)
-        Item drop = new Item("Ammo", null, 1); // Иконку добавим позже
-        InventoryManager.Instance.AddItem(drop);
+        // Дроп патронов на землю
+        if (ammoPickupPrefab != null)
+        {
+            Instantiate(ammoPickupPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("AmmoPickupPrefab not assigned in Enemy!");
+        }
         if (healthBar != null) Destroy(healthBar.gameObject); // Удаляем полосу здоровья
         Destroy(gameObject);
     }
