@@ -7,11 +7,11 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset; // Смещение камеры
     public Vector2 minBounds; // Минимальные границы (левый нижний угол)
     public Vector2 maxBounds; // Максимальные границы (правый верхний угол)
-    public Vector2 boundsBuffer = new Vector2(1f, 1f); // Буфер для границ (чтобы камера не обрезала края)
+    public Vector2 boundsBuffer = new Vector2(1f, 1f); // Буфер для границ ???
 
     void Start()
     {
-        // Установи начальные границы (например, -5, -5 до 5, 5)
+        // начальные границы карты
         minBounds = new Vector2(-9f, -10f);
         maxBounds = new Vector2(22f, 3f);
     }
@@ -20,7 +20,7 @@ public class CameraFollow : MonoBehaviour
     {
         if (target != null)
         {
-            // Вычисляем желаемую позицию камеры
+            // Вычисляем позицию камеры
             Vector3 desiredPosition = target.position + offset;
 
             // Ограничиваем позицию камеры с буфером
